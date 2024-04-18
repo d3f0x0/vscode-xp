@@ -151,26 +151,29 @@ export class ContentVerifierCommand extends ViewCommand {
 			rule.setStatus(ContentItemStatus.Verified, "Интеграционные тесты прошли проверку");
 		}
 
-		if(rule instanceof Correlation) {
-			progress.report({ message: `Проверка локализаций правила ${rule.getName()}`});
+		// TODO: временно отключены тесты локализаций, так как siemkb_tests.exe падает со следующей ошибкой:
+		// TEST_RULES :: log4cplus:ERROR Unable to open file: C:\Users\user\AppData\Local\Temp\eXtraction and Processing\tmp\5239e794-c14a-7526-113c-52479c1694d6\AdAstra_TraceMode_File_Suspect_Operation_Inst_Fldr\2024-04-18_19-06-45_unknown_sdk_227gsqqu\AdAstra_TraceMode_File_Suspect_Operation_Inst_Fldr\tests\raw_events_4_norm_enr.log
+		// TEST_RULES :: Error: SDK: Cannot open fpta db C:\Users\user\AppData\Local\Temp\eXtraction and Processing\tmp\5239e794-c14a-7526-113c-52479c1694d6\AdAstra_TraceMode_File_Suspect_Operation_Inst_Fldr\2024-04-18_19-06-45_unknown_sdk_227gsqqu\AdAstra_TraceMode_File_Suspect_Operation_Inst_Fldr\tests\raw_events_4_fpta.db : it's not exists
+		// if(rule instanceof Correlation) {
+		// 	progress.report({ message: `Проверка локализаций правила ${rule.getName()}`});
 			
-			const siemjManager = new SiemjManager(this.config);
-			const locExamples = await siemjManager.buildLocalizationExamples(rule, ruleTmpFilesRuleName);
+		// 	const siemjManager = new SiemjManager(this.config);
+		// 	const locExamples = await siemjManager.buildLocalizationExamples(rule, ruleTmpFilesRuleName);
 
-			if (locExamples.length === 0) {
-				rule.setStatus(ContentItemStatus.Unverified, "Локализации не были получены");
-				return;
-			}
+		// 	if (locExamples.length === 0) {
+		// 		rule.setStatus(ContentItemStatus.Unverified, "Локализации не были получены");
+		// 		return;
+		// 	}
 
-			const verifiedLocalization = locExamples.some(le => TestHelper.isDefaultLocalization(le.ruText));
-			if(verifiedLocalization) {
-				rule.setStatus(ContentItemStatus.Unverified, "Локализация не прошла проверку, обнаружен пример локализации по умолчанию");
-			} else {
-				rule.setStatus(ContentItemStatus.Verified, "Интеграционные тесты и локализации прошли проверку");
-			}
+		// 	const verifiedLocalization = locExamples.some(le => TestHelper.isDefaultLocalization(le.ruText));
+		// 	if(verifiedLocalization) {
+		// 		rule.setStatus(ContentItemStatus.Unverified, "Локализация не прошла проверку, обнаружен пример локализации по умолчанию");
+		// 	} else {
+		// 		rule.setStatus(ContentItemStatus.Verified, "Интеграционные тесты и локализации прошли проверку");
+		// 	}
 
-			rule.setLocalizationExamples(locExamples);
-		}
+		// 	rule.setLocalizationExamples(locExamples);
+		// }
 	}
 
 	private getChildrenRecursively(parentItem: ContentTreeBaseItem): ContentTreeBaseItem[] {
