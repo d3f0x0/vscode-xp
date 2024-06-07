@@ -1,5 +1,7 @@
 # Change Log
 
+## 3.16.0 (Release - June X, 2024)
+
 ## 3.15.14 (Pre-Release)
 
 - доработана английская локализация под стиль VSCode (special thanks @DuckDarkwing);
